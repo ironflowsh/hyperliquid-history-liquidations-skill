@@ -20,5 +20,6 @@
     "trading-bot"
   ],
   "icon": "assets/icon.png",
-  "privacyPolicyUrl": "https://ironflow.sh/privacy"
+  "privacyPolicyUrl": "https://ironflow.sh/privacy",
+  "supportUrl": "https://github.com/ironflowsh/hyperliquid-history-liquidations-skill/issues"
 }
