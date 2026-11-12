@@ -1,0 +1,15 @@
+{
+  "name": "ironflow",
+  "owner": {
+    "name": "Ironflow",
+    "email": "hello@ironflow.sh"
+  },
+  "description": "Hyperliquid data tools from Ironflow",
+  "plugins": [
+    {
+      "name": "ironflow-hyperliquid",
+      "source": "./",
+      "description": "Hyperliquid history, liquidations, the liquidation map and paper trading: an Agent Skill plus Ironflow's hosted MCP server."
+    }
+  ]
+}
