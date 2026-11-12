@@ -41,6 +41,14 @@ npx skills add ironflowsh/hyperliquid-history-liquidations-skill
 
 The plugin connects to `https://mcp.ironflow.sh/mcp?toolset=data`: read-only data tools, no key needed.
 
+## Services it uses
+
+- `mcp.ironflow.sh`: Ironflow's hosted MCP server, read-only data tools.
+- `api.ironflow.sh`: Ironflow's REST API, for the curl and Python examples in the skill.
+- `huggingface.co`: free Parquet files of Hyperliquid history, downloaded when a task needs older data.
+
+Requests carry the market names, time ranges, wallet addresses or SQL the user asks about. The plugin reads no local files or credentials and stores nothing on the machine. Ironflow's request logs are kept for about 90 days: https://ironflow.sh/privacy.
+
 ## Links
 
 - [Ironflow API docs](https://docs.ironflow.sh)
