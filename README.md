@@ -39,7 +39,7 @@ npx skills add ironflowsh/hyperliquid-history-liquidations-skill
 | `.cursor-plugin/plugin.json`, `mcp.json`, `rules/` | Cursor plugin |
 | `agents-md-snippet.md` | A block to paste into a project's AGENTS.md |
 
-The MCP server is `https://mcp.ironflow.sh/mcp`, keyless. With a free key from [ironflow.sh/key](https://ironflow.sh/key), use `https://mcp.ironflow.sh/mcp?key=if_your_key`, or add the header `Authorization: Bearer if_your_key` in your client.
+The plugin connects to `https://mcp.ironflow.sh/mcp?toolset=data`: read-only data tools, no key needed.
 
 ## Links
 

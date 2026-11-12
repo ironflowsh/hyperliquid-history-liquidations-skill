@@ -44,22 +44,10 @@ curl "https://api.ironflow.sh/v1/liquidations/map?market=BTC-PERP&range_pct=10"
 - Keyless: the 10 largest levels within 10% of mark. Any key returns every level.
 - `GET /v1/liquidations/map/markets` lists the markets. Past liquidations by price are at `GET /v1/analytics/liquidation-levels?market=`.
 
-## Alerts: POST /v1/alerts (needs a key)
+## Alerts
 
-Ironflow posts matching liquidations to a channel within seconds, at most one message every 5 seconds per alert.
-
-```bash
-curl -X POST https://api.ironflow.sh/v1/alerts -H "Authorization: Bearer $IRONFLOW_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"url": "https://discord.com/api/webhooks/...", "markets": ["BTC", "ETH"], "side": "long", "min_usd": 100000}'
-```
-
-- Destination: `url` (a Discord or Slack webhook, or any public HTTPS URL) or `telegram_chat` (then add the bot named in the response's `setup` to the chat).
-- Filters: `markets`, `side` (`any`, `long`, `short`: the liquidated position), `min_usd`, `address`, and `name` for the title.
-- A plain webhook gets signed JSON. `signing_secret` appears once, in the create response.
-- `POST /v1/alerts/{id}/test` sends a sample now. `GET /v1/alerts` lists them, `DELETE /v1/alerts/{id}` removes one.
-- A free key allows 1 alert.
+Ironflow can post matching liquidations to Discord, Slack, Telegram or a webhook within seconds. Setting one up needs an Ironflow account: https://docs.ironflow.sh/guides/liquidation-alerts.
 
 ## MCP tools
 
-On `https://mcp.ironflow.sh/mcp`: `get_liquidations`, `get_liquidation_summary`, `get_liquidation_map`, `get_liquidation_levels`, and with a key `create_liquidation_alert`, `test_liquidation_alert`, `list_liquidation_alerts`, `delete_liquidation_alert`.
+On `https://mcp.ironflow.sh/mcp?toolset=data`: `get_liquidations`, `get_liquidation_summary`, `get_liquidation_map` and `get_liquidation_levels`.

@@ -1,6 +1,5 @@
 {
   "name": "ironflow-hyperliquid",
-  "displayName": "Ironflow Hyperliquid",
   "version": "0.1.0",
   "description": "Hyperliquid history, liquidations, the liquidation map and paper trading for the official SDK: an Agent Skill plus Ironflow's hosted MCP server. No key needed.",
   "author": {
@@ -21,7 +20,5 @@
     "trading-bot"
   ],
   "icon": "assets/icon.png",
-  "documentationUrl": "https://docs.ironflow.sh/guides/ai-agents",
-  "privacyPolicyUrl": "https://ironflow.sh/privacy",
-  "termsOfServiceUrl": "https://ironflow.sh/terms"
+  "privacyPolicyUrl": "https://ironflow.sh/privacy"
 }
