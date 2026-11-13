@@ -50,4 +50,4 @@ Ironflow can post matching liquidations to Discord, Slack, Telegram or a webhook
 
 ## MCP tools
 
-On `https://mcp.ironflow.sh/mcp?toolset=data`: `get_liquidations`, `get_liquidation_summary`, `get_liquidation_map` and `get_liquidation_levels`.
+On `https://mcp.ironflow.sh/data`: `get_liquidations`, `get_liquidation_summary`, `get_liquidation_map` and `get_liquidation_levels`.

@@ -39,7 +39,7 @@ npx skills add ironflowsh/hyperliquid-history-liquidations-skill
 | `.cursor-plugin/plugin.json`, `mcp.json` | Cursor plugin |
 | `agents-md-snippet.md` | A block to paste into a project's AGENTS.md |
 
-The plugin connects to `https://mcp.ironflow.sh/mcp?toolset=data`: read-only data tools, no key needed.
+The plugin connects to `https://mcp.ironflow.sh/data`: read-only data tools, no key needed.
 
 ## Services it uses
 
