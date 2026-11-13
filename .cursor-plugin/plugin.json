@@ -1,6 +1,6 @@
 {
   "name": "ironflow-hyperliquid",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Hyperliquid history, liquidations, the liquidation map and paper trading for the official SDK: an Agent Skill, a rule and Ironflow's hosted MCP server. No key needed.",
   "author": {
     "name": "Ironflow",
