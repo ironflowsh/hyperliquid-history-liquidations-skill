@@ -21,7 +21,7 @@ npx skills add ironflowsh/hyperliquid-history-liquidations-skill
 
 **Cursor plugin** (the skill, a rule and the MCP server): install from the Cursor marketplace. To try it locally, copy this folder to `~/.cursor/plugins/local/ironflow-hyperliquid` and reload the window.
 
-**By hand:** copy `skills/hyperliquid-history-liquidations` into `.claude/skills/`, `.cursor/skills/` or `.agents/skills/`. For Cursor rules only, copy `rules/hyperliquid-data.mdc` into `.cursor/rules/`.
+**By hand:** copy `skills/hyperliquid-history-liquidations` into `.claude/skills/`, `.cursor/skills/` or `.agents/skills/`.
 
 ## What the agent learns
 
@@ -36,7 +36,7 @@ npx skills add ironflowsh/hyperliquid-history-liquidations-skill
 |---|---|
 | `skills/hyperliquid-history-liquidations/` | The skill: `SKILL.md` plus `references/` |
 | `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.mcp.json` | Claude Code plugin and marketplace |
-| `.cursor-plugin/plugin.json`, `mcp.json`, `rules/` | Cursor plugin |
+| `.cursor-plugin/plugin.json`, `mcp.json` | Cursor plugin |
 | `agents-md-snippet.md` | A block to paste into a project's AGENTS.md |
 
 The plugin connects to `https://mcp.ironflow.sh/mcp?toolset=data`: read-only data tools, no key needed.
