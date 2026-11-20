@@ -35,7 +35,7 @@ How far back the API reads depends on access: 24 hours keyless, 14 days on a fre
 ## Liquidations, the map and alerts
 
 - `GET /v1/liquidations` returns one row per liquidation fill. `side=sell` closes a long, so it is a liquidated long.
-- `GET /v1/liquidations/summary?window=1h` gives totals by market.
+- `GET /v1/liquidations/summary?windows=1h` gives totals by market.
 - `GET /v1/liquidations/map?market=BTC-PERP` shows where open positions would be liquidated. Keyless returns the 10 largest levels.
 - `GET /v1/liquidations/stream` pushes rows live instead of polling.
 - `POST /v1/alerts` with a key posts them to Discord, Slack, Telegram or a webhook.
