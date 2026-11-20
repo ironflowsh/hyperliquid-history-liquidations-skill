@@ -17,7 +17,7 @@ curl "https://api.ironflow.sh/v1/liquidations?market=BTC-PERP,ETH-PERP&from=-6h&
 
 ## Totals: GET /v1/liquidations/summary
 
-`?window=1h` (15m, 1h, 4h, 12h, 24h keyless; 7d with a key) and optional `market`. Returns count, wallets, long and short USD, the top markets and the largest liquidation, computed over every row.
+`?windows=1h` or a comma list such as `windows=1h,4h,24h` (15m, 1h, 4h, 12h, 24h keyless; 7d with a key) and optional `market`. Returns count, wallets, long and short USD, the top markets and the largest liquidation, computed over every row.
 
 ## Live: GET /v1/liquidations/stream
 
