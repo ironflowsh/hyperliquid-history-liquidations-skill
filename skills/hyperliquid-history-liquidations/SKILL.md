@@ -1,6 +1,6 @@
 ---
 name: hyperliquid-history-liquidations
-description: Hyperliquid historical data and liquidations from Ironflow's API, keyless. Use when a task needs Hyperliquid liquidations (history, totals, a live stream, alerts to Discord, Slack, Telegram or a webhook), the liquidation map (where open positions would be liquidated), candles past the 5,000-candle limit, a wallet's fills past userFills' 10,000, backtest data, or a paper trading account for a bot built on the official Hyperliquid SDK (base_url) without testnet.
+description: Hyperliquid historical data and liquidations from Ironflow's API and MCP server, keyless or with a free key. Use when a task needs Hyperliquid liquidations (history, totals, a live stream, alerts to Discord, Slack, Telegram or a webhook), the liquidation map (where open positions would be liquidated), historical fills, trades, candles past the 5,000-candle limit, funding or open interest history, a wallet's fills past userFills' 10,000 and its PnL, read-only SQL over every fill since May 2025, or backtest data.
 license: MIT
 ---
 
@@ -14,7 +14,7 @@ curl "https://api.ironflow.sh/v1/candles?market=BTC-PERP&interval=1h&limit=24"
 curl "https://api.ironflow.sh/v1/liquidations/map?market=BTC-PERP"
 ```
 
-Keyless: 30 requests a minute, 300 a day, the last 24 hours; liquidations and trades run 60 s behind live. A free key gives 60 a minute, 14 days and live rows: https://ironflow.sh/key, sent as `Authorization: Bearer if_...`. A person has to get it, because the key arrives by email.
+Keyless: 30 requests a minute, 100 credits a day, the last 24 hours; liquidations and trades run 60 s behind live. A free key gives 60 a minute, 1,000 credits a day (3,000 a month), 14 days and live rows: https://ironflow.sh/key, sent as `Authorization: Bearer if_...`. A person has to get it, because the key arrives by email. A read costs 1 credit, analytics such as the map or wallet summaries 5, a SQL query 10.
 
 ## What Hyperliquid's info API cannot do
 
@@ -42,22 +42,15 @@ How far back the API reads depends on access: 24 hours keyless, 14 days on a fre
 
 Parameters and shapes: [references/liquidations.md](references/liquidations.md).
 
-## Paper trading with the official SDK
+## Wallets
 
-A paper box is a simulated Hyperliquid account with $10,000 and live prices. `POST https://api.ironflow.sh/v1/ironbox` with `{"mode": "paper"}` and no key returns `base_url`. Point the SDK at it:
+- `GET /v1/fills?address=0x...&from=-7d` returns one wallet's fills with fee, realized PnL and maker or taker role.
+- `GET /v1/analytics/user-summary?address=0x...` gives volume, realized PnL, fill count, win rate and maker or taker mix; `user-pnl-series`, `user-funding` and `user-state` give the PnL curve, funding paid and the current positions.
+- `GET /v1/positions?address=0x...&at=<ISO time>` rebuilds a wallet's positions at a past time inside your history.
 
-```python
-from eth_account import Account
-from hyperliquid.exchange import Exchange
-from hyperliquid.info import Info
+## SQL
 
-wallet = Account.create()                  # throwaway, never a funded key
-info = Info(base_url, skip_ws=True)        # a box has no WebSocket
-exchange = Exchange(wallet, base_url=base_url)
-exchange.market_open("BTC", True, 0.001)
-```
-
-A box never places a real order. Rules, limits and strategies that run on the box: [references/paper-box.md](references/paper-box.md).
+`GET /v1/query?sql=...` runs one read-only ClickHouse SELECT over `hl.*` tables (`hl.fills`, `hl.liquidations`, `hl.funding`, `hl.open_interest`, `hl.market_hourly` and more). `GET /v1/query/schema` lists tables and columns and costs nothing. Examples and limits: [references/history.md](references/history.md).
 
 ## Conventions
 
@@ -66,4 +59,4 @@ A box never places a real order. Rules, limits and strategies that run on the bo
 - Pages: `limit` up to 1000, then `cursor=pagination.next_cursor`.
 - Read the `X-Ironflow-Notice` header or the `notice` field and tell the user. It says when a window was cut to the key's history.
 - On a 429, wait for `Retry-After`.
-- MCP clients can use the same data at `https://mcp.ironflow.sh/mcp` (`get_liquidations`, `get_liquidation_map`, `get_candles`, `run_query`).
+- MCP clients can use the same data at `https://mcp.ironflow.sh/data` (read-only data tools such as `get_liquidations`, `get_liquidation_map`, `get_candles`, `get_fills`, `get_funding_rates`, `get_open_interest`, `get_user_summary`, `run_query`). `https://mcp.ironflow.sh/mcp` has the same tools plus liquidation alerts.
