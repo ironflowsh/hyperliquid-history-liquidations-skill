@@ -13,9 +13,9 @@ Base URL `https://api.ironflow.sh`. Fill history starts on 25 May 2025.
 
 | Access | Requests | History |
 |---|---|---|
-| No key | 30 a minute, 300 a day per IP | 24 hours |
-| Free key (https://ironflow.sh/key) | 60 a minute | 14 days |
-| Plans | from 100 a minute | 90 days to everything stored |
+| No key | 30 a minute, 100 credits a day per IP | 24 hours |
+| Free key (https://ironflow.sh/key) | 60 a minute, 1,000 credits a day and 3,000 a month | 14 days |
+| Plans: Explorer $49, Builder $149, Pro $499 a month | from 100 a minute | 90 days, 1 year, every fill since May 2025 |
 
 All plan limits: https://docs.ironflow.sh/concepts/rate-limits. A `from` older than your reach is cut to it, with `X-Ironflow-History-Clamped` (Unix ms) and an `X-Ironflow-Notice` that says so.
 
@@ -28,13 +28,13 @@ All plan limits: https://docs.ironflow.sh/concepts/rate-limits. A `from` older t
 | Funding | `GET /v1/funding?market=BTC-PERP` |
 | Open interest | `GET /v1/open-interest?market=BTC-PERP` |
 | Mark and oracle prices | `GET /v1/mark-prices?market=BTC-PERP` |
-| A wallet's positions at a past time | `GET /v1/positions?address=0x...&at=2026-11-01T12:00:00Z` (key) |
+| A wallet's positions at a past time | `GET /v1/positions?address=0x...&at=<ISO time inside your history>` |
 
 Paging: `limit` up to 1000, then pass `pagination.next_cursor` as `cursor` until `pagination.has_more` is false. `order=desc&limit=1` is the latest row. Full spec: https://api.ironflow.sh/openapi.yaml.
 
 ## SQL
 
-`GET` or `POST https://api.ironflow.sh/v1/query` with `sql`: one read-only ClickHouse SELECT over `hl.*` tables (`hl.fills`, `hl.trades`, `hl.liquidations`, `hl.market_hourly`, `hl.funding`, `hl.open_interest`, `hl.mark_prices`, `hl.wallet_daily`, ...). Tables and columns: `GET /v1/query/schema`. Keyless: 24 hours, 5 s per query, 60 query seconds an hour, 1,000 rows. Aggregate in SQL; for totals over days or months read `hl.market_hourly`.
+`GET` or `POST https://api.ironflow.sh/v1/query` with `sql`: one read-only ClickHouse SELECT over `hl.*` tables (`hl.fills`, `hl.trades`, `hl.liquidations`, `hl.market_hourly`, `hl.funding`, `hl.open_interest`, `hl.mark_prices`, `hl.wallet_daily`, ...). Tables and columns: `GET /v1/query/schema`. Keyless: 1 day back, 5 s and 1,000 rows a query, 1 minute of query time an hour. A free key: 30 days, 10 s, 1,000 rows. A query costs 10 credits. Aggregate in SQL; for totals over days or months read `hl.market_hourly`.
 
 ```bash
 curl -G https://api.ironflow.sh/v1/query --data-urlencode \
@@ -47,7 +47,7 @@ Parquet files on Hugging Face (`https://huggingface.co/datasets/ironflow/<datase
 
 | Dataset | File | From | One row per |
 |---|---|---|---|
-| `hyperliquid-liquidations` | `data/events/YYYY-MM.parquet` | 2025-05 | liquidated position (`timestamp`, `market`, `wallet`, `position_side`, `notional_usd`, `avg_price`) |
+| `hyperliquid-liquidations` | `data/events/YYYY-MM.parquet` | 2025-05 | liquidated position (`timestamp`, `market`, `position_side`, `notional_usd`, `avg_price`) |
 | `hyperliquid-liquidations` | `data/fills/YYYY-MM.parquet` | 2025-05 | liquidation fill |
 | `hyperliquid-candles-1h` | `data/YYYY-MM.parquet` | 2025-05 | market and hour (`timestamp`, `market`, `coin`, `open`, `high`, `low`, `close`, `volume`, `trades`) |
 | `hyperliquid-funding` | `data/YYYY-MM.parquet` | 2023-05 | market and funding hour |
@@ -61,7 +61,7 @@ url = "https://huggingface.co/datasets/ironflow/hyperliquid-candles-1h/resolve/m
 btc = pd.read_parquet(url, filters=[("market", "==", "BTC-PERP")])
 ```
 
-Files are released after a month closes; use the API for recent days. Each dataset card states its license.
+From 10 November 2026 new files appear 90 days after the data date, carry no wallet addresses and are for non-commercial use (CC BY-NC 4.0). Use the API for recent days, wallet-level data or commercial use. Each dataset card states its license.
 
 ## Hyperliquid SDK as a client
 

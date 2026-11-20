@@ -9,7 +9,7 @@
     {
       "name": "ironflow-hyperliquid",
       "source": "./",
-      "description": "Hyperliquid history, liquidations, the liquidation map and paper trading: an Agent Skill plus Ironflow's hosted MCP server."
+      "description": "Hyperliquid history, liquidations, the liquidation map, wallet history and SQL: an Agent Skill plus Ironflow's hosted MCP server."
     }
   ]
 }

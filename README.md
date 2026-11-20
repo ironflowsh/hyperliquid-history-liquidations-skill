@@ -1,6 +1,6 @@
 # Hyperliquid history and liquidations skill
 
-An Agent Skill that teaches coding agents where Hyperliquid data lives past the limits of Hyperliquid's own API: liquidations across all wallets, the liquidation map, alerts, candles past 5,000, wallet fills past 10,000, and a paper account for bots built on the official SDK. It ships with Ironflow's hosted MCP server. No key needed.
+An Agent Skill that teaches coding agents where Hyperliquid data lives past the limits of Hyperliquid's own API: liquidations across all wallets, the liquidation map, alerts, candles past 5,000, wallet fills past 10,000 with PnL, funding and open interest history, and read-only SQL over every fill since May 2025. It ships with Ironflow's hosted MCP server. No key needed to start; a free key raises the limits.
 
 The skill is in [`skills/hyperliquid-history-liquidations`](skills/hyperliquid-history-liquidations/SKILL.md). It follows the open [Agent Skills](https://agentskills.io) format.
 
@@ -19,7 +19,7 @@ npx skills add ironflowsh/hyperliquid-history-liquidations-skill
 /plugin install ironflow-hyperliquid@ironflow
 ```
 
-**Cursor plugin** (the skill, a rule and the MCP server): install from the Cursor marketplace. To try it locally, copy this folder to `~/.cursor/plugins/local/ironflow-hyperliquid` and reload the window.
+**Cursor plugin** (the skill and the MCP server): install from the Cursor marketplace. To try it locally, copy this folder to `~/.cursor/plugins/local/ironflow-hyperliquid` and reload the window.
 
 **By hand:** copy `skills/hyperliquid-history-liquidations` into `.claude/skills/`, `.cursor/skills/` or `.agents/skills/`.
 
@@ -28,7 +28,9 @@ npx skills add ironflowsh/hyperliquid-history-liquidations-skill
 - Keyless curl first: `curl "https://api.ironflow.sh/v1/liquidations?market=BTC-PERP&order=desc&limit=5"`.
 - History past the caps: REST by access level, read-only SQL and free monthly Parquet files since May 2025.
 - Liquidations: rows, totals, the live stream, the liquidation map and alerts to Discord, Slack, Telegram or a webhook.
-- Paper trading: `POST /v1/ironbox` returns a `base_url` for the official Hyperliquid SDK, with `skip_ws=True`.
+- Wallets: fills with fee and realized PnL, summaries, PnL series, funding paid and positions at a past time.
+- SQL: one read-only ClickHouse query over `hl.*` tables, with the schema at `/v1/query/schema`.
+- Limits: keyless 30 requests a minute and 100 credits a day over 24 hours; a free key (https://ironflow.sh/key) gives 60 a minute, 1,000 credits a day and 14 days.
 
 ## Contents
 
